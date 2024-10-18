@@ -1,0 +1,28 @@
+services:
+  local-mysql-simple-forum-db:
+    image: mysql:latest
+    container_name: local-mysql-simple-forum-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=simple-forum
+    volumes:
+      - local-mysql-simple-forum-db--data:/var/lib/mysql
+
+  go-simple-forum-api:
+    container_name: go-simple-forum-api
+    image: go-simple-forum
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - local-mysql-simple-forum-db
+
+volumes:
+  local-mysql-simple-forum-db--data:
+    driver: local
