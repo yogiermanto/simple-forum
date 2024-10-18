@@ -4,9 +4,8 @@ services:
     container_name: local-mysql-simple-forum-db
     ports:
       - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=simple-forum
+    env_file:
+      - .env
     volumes:
       - local-mysql-simple-forum-db--data:/var/lib/mysql
 
